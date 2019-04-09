@@ -1,15 +1,20 @@
 const state = {
-  //
+  userName: 'lison'
 }
 const mutations = {
   //
 }
 const actions = {
-
+  //
 }
-
-export default {
+const getters = {
+  filterLetter: state => state.userName.substr(0, 1)
+}
+const user = {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }
+
+export default user
