@@ -6,16 +6,25 @@
     <button @click="handleClick('push')">跳转到parent</button>
     <button @click="handleClick('replace')">替换到parent</button>
     {{food}}
+    <hr>
+    <button @click="getUserInfo">获取用户信息</button>
+    <img :src="img" alt="">
   </div>
 </template>
 
 <script>
 
 import HelloWorld from '@/components/HelloWorld.vue'
+import { getUserInfo } from '@/api/user'
 
 export default {
   name: 'home',
   components: { HelloWorld },
+  data () {
+    return {
+      img: ''
+    }
+  },
   props: {
     food: {
       type: String,
@@ -37,6 +46,12 @@ export default {
           name: 'parent'
         })
       }
+    },
+    getUserInfo () {
+      getUserInfo().then(res => {
+        this.img = res.data.img
+        console.log(res.data)
+      })
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -47,12 +62,12 @@ export default {
   },
   beforeRouteLeave (to, from, next) {
     // 即将离开时调用
-    const leave = confirm('您确定要离开吗')
-    if (leave) {
-      next()
-    } else {
-      // do nothing
-    }
+    // const leave = confirm('您确定要离开吗')
+    // if (leave) {
+    //   next()
+    // } else {
+    //   // do nothing
+    // }
   },
   beforeRouteUpdate (to, from, next) {
     // 路由发生变化，组件复用才会调用

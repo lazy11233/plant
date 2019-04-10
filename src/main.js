@@ -4,6 +4,8 @@ import router from './routre/index'
 import store from './store/index'
 import Bus from './lib/bus'
 
+process.env.NODE_ENV !== 'production' && require('./mock')
+
 Vue.config.productionTip = false
 Vue.prototype.$bus = Bus
 

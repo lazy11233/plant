@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 import { baseURL } from '@/config'
 
 class HttpRequest {
@@ -9,33 +8,42 @@ class HttpRequest {
   }
 
   getInsideConfig () {
-    return {
-      baseUrl: this.baseUrl,
-      headers: {}
+    const config = {
+      baseURL
     }
+    return config
   }
 
-  interceptors (instance) {
-    instance.interceptors.request.use(config => {
-      // 添加全局的loading...
-      // Spin.show()
-      return config
-    }, error => {
-      return Promise.reject(error)
-    })
-    instance.interceptors.response.use(res => {
-      console.log(res)
-      return res
-    }, error => {
-      return Promise.reject(error)
-    })
+  interceptors (instance, url) {
+    instance.interceptors.request.use(
+      config => {
+        // 做一些全局的请求拦截设置，比如为每个请求添加token
+        // if (!Object.keys(this.queue).length) Spin.show() 每次访问请求都会触发往 queue 添加
+        this.queue[url] = true
+        return config
+      },
+      error => {
+        return Promise.reject(error)
+      }
+    )
+    instance.interceptors.response.use(
+      res => {
+        delete this.queue[url] // 删除这个 url 下的队列
+        const { data, status } = res
+        return { data, status }
+      },
+      error => {
+        delete this.queue[url]
+        return Promise.reject(error)
+      })
   }
 
   request (options) {
     const instance = axios.create()
-    const newOptions = Object.assign(this.getInsideConfig(), options)
-    this.interceptors(instance)
-    return instance(newOptions)
+    // assign 两者有相同的属性名，会用后面的属性覆盖前面的
+    const tempOptions = Object.assign(this.getInsideConfig(), options)
+    this.interceptors(instance, options.url)
+    return instance(tempOptions)
   }
 }
 

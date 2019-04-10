@@ -40,6 +40,11 @@ export default [
     props: true
   },
   {
+    path: '/count-to',
+    name: 'count_to',
+    component: () => import('@/views/countpage.vue')
+  },
+  {
     path: '/parent',
     name: 'parent',
     component: () => import('@/views/parent.vue'),
