@@ -45,6 +45,11 @@ export default [
     component: () => import('@/views/countpage.vue')
   },
   {
+    path: '/split-pane',
+    name: 'split_pane',
+    component: () => import('@/views/splitpage.vue')
+  },
+  {
     path: '/parent',
     name: 'parent',
     component: () => import('@/views/parent.vue'),
