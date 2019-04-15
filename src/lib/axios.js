@@ -28,7 +28,7 @@ class HttpRequest {
     )
     instance.interceptors.response.use(
       res => {
-        delete this.queue[url] // 删除这个 url 下的队列
+        delete this.queue[url] // 删除这个 url 对应的队列内容
         const { data, status } = res
         return { data, status }
       },

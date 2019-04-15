@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './routre/index'
 import store from './store/index'
 import Bus from './lib/bus'
+import 'reset-css'
 
 process.env.NODE_ENV !== 'production' && require('./mock')
 
